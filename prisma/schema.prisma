@@ -8,7 +8,7 @@ datasource db {
 }
 
 model Order {
-    id          String      @id @default(uuid())
+    id          String      @id
     clientId    String?     @map("client_id") @db.Char(36)
     paymentId   String?     @map("payment_id") @db.Char(36)
     totalAmount Int
