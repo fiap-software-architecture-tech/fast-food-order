@@ -1,5 +1,5 @@
 {
-    "name": "fast-food-order-service",
+    "name": "fast-food-order",
     "version": "1.0.0",
     "description": "Lambda order do Tech Challenge do curso SOAT FIAP",
     "main": "src/main/index.js",
@@ -10,7 +10,9 @@
         "dev": "tsx watch src/main/index.ts",
         "start": "npm run build && node dist/main/index.js",
         "lint": "tsc && eslint ./src/**/*.ts",
-        "lint:fix": "eslint ./src/**/*.ts --fix",
+        "test": "vitest run",
+        "test:watch": "vitest --watch",
+        "test:coverage": "vitest run --coverage --reporter=verbose",
         "prisma:generate": "prisma generate",
         "prisma:migrate": "prisma migrate dev",
         "prisma:reset": "prisma migrate reset",
@@ -19,11 +21,11 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/laahundskarl/fast-food-auth-service.git"
+        "url": "git+https://github.com/laahundskarl/fast-food-order.git"
     },
     "keywords": [],
     "license": "ISC",
-    "homepage": "https://github.com/laahundskarl/fast-food-auth-service#readme",
+    "homepage": "https://github.com/laahundskarl/fast-food-order#readme",
     "engineStrict": true,
     "engines": {
         "node": ">=22"
@@ -52,6 +54,7 @@
         "@types/node": "^22.15.18",
         "@typescript-eslint/eslint-plugin": "^8.32.1",
         "@typescript-eslint/parser": "^8.32.1",
+        "@vitest/coverage-v8": "4.0.16",
         "eslint": "^9.27.0",
         "eslint-config-prettier": "^10.1.5",
         "eslint-import-resolver-typescript": "^4.3.4",
@@ -61,9 +64,9 @@
         "prettier": "^3.5.3",
         "prisma": "6.13.0",
         "rimraf": "^6.0.1",
-        "tsup": "^8.5.0",
         "tsx": "^4.20.6",
         "typescript": "^5.9.3",
-        "typescript-eslint": "^8.32.1"
+        "typescript-eslint": "^8.32.1",
+        "vitest": "^4.0.16"
     }
 }

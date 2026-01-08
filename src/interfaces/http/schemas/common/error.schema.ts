@@ -1,4 +1,3 @@
-// src/interfaces/http/schemas/common/error.schema.ts
 import z from 'zod';
 
 const baseErrorSchema = z.object({
