@@ -17,6 +17,7 @@ const envSchema = z.object({
 
     // API URL
     FAST_FOOD_API_URL: z.string().url(),
+    FAST_FOOD_PAYMENT_API_URL: z.string().url(),
 
     // JWT
     JWT_SECRET: z.string(),

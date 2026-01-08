@@ -9,35 +9,53 @@ import { BusinessError } from '#/domain/errors';
 
 type OrderPayload = {
     id?: string;
-    clientId?: string;
-    paymentId: string;
-    value: number;
+    clientId?: string | null;
+    paymentId?: string | null;
+    totalAmount: number;
     orderNumber: number;
     status: OrderStatus;
     orderProducts?: OrderProduct[];
     client?: Client;
-    payments?: Payment[];
+    payment?: Payment;
 };
 
 export class Order {
     public readonly id: string;
-    public clientId: string | null;
-    public paymentId: string;
-    public value: number;
+    public clientId?: string | null;
+    public paymentId?: string | null;
+    public totalAmount: number;
     public orderNumber: number;
     public status: OrderStatus;
     public orderProducts: OrderProduct[];
     public client?: Client;
-    public payments?: Payment[];
+    public payment?: Payment;
 
     constructor(payload: OrderPayload) {
         this.id = payload.id || randomUUID();
-        this.clientId = payload.clientId || null;
+        this.clientId = payload.clientId;
         this.paymentId = payload.paymentId;
-        this.value = payload.value;
+        this.totalAmount = payload.totalAmount;
         this.orderNumber = payload.orderNumber;
         this.status = payload.status;
         this.orderProducts = payload.orderProducts || [];
+        this.client = payload.client;
+        this.payment = payload.payment;
+    }
+
+    setClientId(clientId?: string) {
+        this.clientId = clientId;
+    }
+
+    setPaymentId(paymentId: string) {
+        this.paymentId = paymentId;
+    }
+
+    setClient(client?: Client) {
+        this.client = client;
+    }
+
+    setPayment(payment?: Payment) {
+        this.payment = payment;
     }
 
     updateStatus(newStatus: OrderStatus) {

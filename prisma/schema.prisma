@@ -11,7 +11,7 @@ model Order {
     id          String      @id @default(uuid())
     clientId    String?     @map("client_id") @db.Char(36)
     paymentId   String?     @map("payment_id") @db.Char(36)
-    value       Int
+    totalAmount Int
     orderNumber Int         @unique @default(autoincrement()) @map("order_number")
     status      OrderStatus @default(WAITING)
 
@@ -24,11 +24,15 @@ model Order {
 }
 
 model OrderProduct {
-    id        String @id @default(uuid())
-    orderId   String @map("order_id") @db.Char(36)
-    productId String @map("product_id") @db.Char(36)
-    amount    Int
-    value     Int
+    id          String  @id @default(uuid())
+    orderId     String  @map("order_id") @db.Char(36)
+    productId   String  @map("product_id") @db.Char(36)
+    name        String  @db.VarChar(255)
+    description String? @db.VarChar(500)
+    category    String  @db.VarChar(255)
+    unitPrice   Int
+    quantity    Int
+    subtotal    Int
 
     createdAt DateTime @default(now()) @map("created_at")
     updatedAt DateTime @updatedAt @map("updated_at")

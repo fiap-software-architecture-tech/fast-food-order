@@ -1,7 +1,7 @@
 services:
   mysql:
     image: mysql:8.0
-    container_name: fast-food-mysql
+    container_name: fastfood_order_db
     restart: unless-stopped
     command: --default-authentication-plugin=mysql_native_password
     environment:
@@ -10,12 +10,12 @@ services:
     ports:
        - "${DATABASE_PORT:-3306}:3306"
     volumes:
-      - mysql_data:/var/lib/mysql
+      - db_data:/var/lib/mysql
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-      interval: 10s
+      interval: 5s
       timeout: 5s
-      retries: 5
+      retries: 10
 
 volumes:
-  mysql_data:
+  db_data:

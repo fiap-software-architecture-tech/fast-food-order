@@ -1,9 +1,10 @@
+import fastifySwagger from '@fastify/swagger';
 import fastify, { FastifyInstance } from 'fastify';
-import { serializerCompiler, validatorCompiler } from 'fastify-type-provider-zod';
+import { jsonSchemaTransform, serializerCompiler, validatorCompiler } from 'fastify-type-provider-zod';
 
 import { container } from '#/infrastructure/config/di/container';
 import { errorHandler } from '#/interfaces/http/middlewares/error-handler';
-import { orderRoute } from '#/interfaces/http/routes/order.route';
+import { registerRoutes } from '#/interfaces/http/routes';
 
 export async function createApp(): Promise<FastifyInstance> {
     const app = fastify({ logger: true });
@@ -13,7 +14,24 @@ export async function createApp(): Promise<FastifyInstance> {
     app.setSerializerCompiler(serializerCompiler);
     app.setValidatorCompiler(validatorCompiler);
 
-    app.register(orderRoute);
+    app.register(fastifySwagger, {
+        openapi: {
+            info: {
+                title: 'API FastFood Orders',
+                description: 'Documentação da API FastFood Orders',
+                version: '1.0.0',
+            },
+            tags: [
+                {
+                    name: 'Pedidos',
+                    description: 'Operações relacionadas a pedidos',
+                },
+            ],
+        },
+        transform: jsonSchemaTransform,
+    });
+
+    registerRoutes(app);
 
     app.setErrorHandler(errorHandler);
 

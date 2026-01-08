@@ -1,33 +1,32 @@
 import { Order } from '#/domain/entities/order.entity';
-import { OrderResponse } from '#/interfaces/http/schemas/order/order-response.schema';
+import { OrderResponse, UpdateOrderStatusResponse } from '#/interfaces/http/schemas/order/order-response.schema';
 
 export class OrderPresenter {
     static toHTTP(order: Order): OrderResponse {
         return {
             id: order.id,
-            value: order.value,
+            totalAmount: order.totalAmount,
             orderNumber: order.orderNumber,
             status: order.status,
             ...(order.orderProducts && {
                 orderProducts: order.orderProducts.map(op => ({
                     id: op.id,
-                    amount: op.amount,
-                    value: op.value,
-                    product: {
-                        id: op.product.id,
-                        name: op.product.name,
-                        value: op.product.value,
-                        description: op.product.description ?? null,
-                    },
+                    productId: op.productId,
+                    name: op.name,
+                    description: op.description,
+                    category: op.category,
+                    unitPrice: op.unitPrice,
+                    quantity: op.quantity,
+                    subtotal: op.subtotal,
                 })),
             }),
-            ...(order.payments && {
-                payments: order.payments.map(p => ({
-                    id: p.id,
-                    status: p.status,
-                    externalReference: p.externalReference ?? null,
-                    qrCode: p.qrCode ?? null,
-                })),
+            ...(order.payment && {
+                payment: {
+                    id: order.payment.id,
+                    status: order.payment.status,
+                    externalReference: order.payment.externalReference,
+                    qrCode: order.payment.qrCode,
+                },
             }),
             ...(order.client && {
                 client: {
@@ -38,5 +37,9 @@ export class OrderPresenter {
                 },
             }),
         };
+    }
+
+    static toUpdateOrderStatusResponse(): UpdateOrderStatusResponse {
+        return { message: 'Order status updated successfully' };
     }
 }

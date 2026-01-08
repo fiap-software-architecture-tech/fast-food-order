@@ -7,10 +7,8 @@ export const TYPES = {
 
     // Use Cases
     CreateOrderUseCase: Symbol.for('CreateOrderUseCase'),
-    DeleteOrderUseCase: Symbol.for('DeleteOrderUseCase'),
     GetOrderUseCase: Symbol.for('GetOrderUseCase'),
     ListOrderUseCase: Symbol.for('ListOrderUseCase'),
-    UpdateOrderUseCase: Symbol.for('UpdateOrderUseCase'),
     UpdateOrderStatusUseCase: Symbol.for('UpdateOrderStatusUseCase'),
 
     // Repositories
@@ -19,9 +17,13 @@ export const TYPES = {
     // Gateway
     GetClientByCpfGateway: Symbol.for('GetClientByCpfGateway'),
     GetClientByIdGateway: Symbol.for('GetClientByIdGateway'),
+    FindManyProductsGateway: Symbol.for('FindManyProductsGateway'),
+    CreatePaymentGateway: Symbol.for('CreatePaymentGateway'),
+    GetPaymentGateway: Symbol.for('GetPaymentGateway'),
 
     // Services
     ValidatorTokenService: Symbol.for('ValidatorTokenService'),
     HttpClientService: Symbol.for('HttpClientService'),
+    ProductValidatorService: Symbol.for('ProductValidatorService'),
     Logger: Symbol.for('Logger'),
 } as const;

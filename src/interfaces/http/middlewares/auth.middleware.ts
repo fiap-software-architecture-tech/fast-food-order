@@ -2,7 +2,7 @@ import { FastifyRequest } from 'fastify';
 import { inject, injectable } from 'inversify';
 
 import { UnauthorizedError } from '#/domain/errors';
-import { GetClientByCpf } from '#/domain/gateways/client/get-client-by-cpf';
+import { IGetClientByCpf } from '#/domain/gateways/client/get-client-by-cpf';
 import { ILogger } from '#/domain/services/logger.service';
 import { IValidatorTokenService } from '#/domain/services/validator-token.service';
 import { TYPES } from '#/infrastructure/config/di/types';
@@ -12,7 +12,7 @@ export class AuthMiddleware {
     constructor(
         @inject(TYPES.Logger) private readonly logger: ILogger,
         @inject(TYPES.ValidatorTokenService) private readonly validatorTokenService: IValidatorTokenService,
-        @inject(TYPES.GetClientByCpfGateway) private readonly getClientByCpf: GetClientByCpf,
+        @inject(TYPES.GetClientByCpfGateway) private readonly getClientByCpf: IGetClientByCpf,
     ) {}
 
     handle = async (request: FastifyRequest) => {
@@ -36,8 +36,6 @@ export class AuthMiddleware {
             throw new UnauthorizedError('Client not found');
         }
 
-        request.user = {
-            id: client.id,
-        };
+        request.client = client;
     };
 }

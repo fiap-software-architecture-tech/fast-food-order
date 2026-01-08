@@ -1,6 +1,6 @@
-import { ListOrderRequestDto } from '#/application/use-cases/list-order/list-order.dto';
 import { Order } from '#/domain/entities/order.entity';
+import { OrderQueryRequest } from '#/interfaces/http/schemas/order/order-request.schema';
 
 export interface IListOrderUseCase {
-    execute(request: ListOrderRequestDto): Promise<Order[]>;
+    execute(request: OrderQueryRequest): Promise<Order[]>;
 }

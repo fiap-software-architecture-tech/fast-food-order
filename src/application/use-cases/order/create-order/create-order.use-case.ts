@@ -1,6 +1,7 @@
-import { CreateOrderDto } from '#/application/use-cases/create-order/create-order.dto';
+import { Client } from '#/domain/entities/client.entity';
 import { Order } from '#/domain/entities/order.entity';
+import { OrderCreateRequest } from '#/interfaces/http/schemas/order/order-request.schema';
 
 export interface ICreateOrderUseCase {
-    execute(request: CreateOrderDto): Promise<Order>;
+    execute(request: OrderCreateRequest, client?: Client): Promise<Order>;
 }

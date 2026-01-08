@@ -7,14 +7,12 @@ import {
     OrderCreateRequest,
     OrderParamsRequest,
     OrderQueryRequest,
-    OrderUpdateRequest,
     OrderUpdateStatusRequest,
 } from '#/interfaces/http/schemas/order/order-request.schema';
 import {
     orderCreateSchema,
     orderGetSchema,
     orderListSchema,
-    orderUpdateSchema,
     orderUpdateStatusSchema,
 } from '#/interfaces/http/schemas/order/order.route-schema';
 
@@ -22,7 +20,8 @@ export const orderRoute = (app: FastifyInstance) => {
     const controller = app.container.get<OrderController>(TYPES.OrderController);
 
     app.post<{ Body: OrderCreateRequest }>('/', orderCreateSchema, async (req, reply) => {
-        const response = await controller.create(req.body);
+        const client = req.client;
+        const response = await controller.create(req.body, client);
         return reply.status(StatusCodes.CREATED).send(response);
     });
 
@@ -33,14 +32,6 @@ export const orderRoute = (app: FastifyInstance) => {
 
     app.get<{ Querystring: OrderQueryRequest }>('/', orderListSchema, async (req, reply) => {
         const response = await controller.list(req.query);
-        return reply.send(response);
-    });
-
-    app.patch<{
-        Params: OrderParamsRequest;
-        Body: OrderUpdateRequest;
-    }>('/:id', orderUpdateSchema, async (req, reply) => {
-        const response = await controller.update(req.params.id, req.body);
         return reply.send(response);
     });
 

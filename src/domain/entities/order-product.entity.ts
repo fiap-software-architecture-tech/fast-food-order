@@ -1,27 +1,34 @@
 import { randomUUID } from 'crypto';
 
-import { Product } from '#/domain/entities/product.entity';
-
 type OrderProductPayload = {
     id?: string;
     productId: string;
-    amount: number;
-    value: number;
-    product: Product;
+    name: string;
+    description: string | null;
+    category: string;
+    unitPrice: number;
+    quantity: number;
+    subtotal: number;
 };
 
 export class OrderProduct {
     public readonly id: string;
     public productId: string;
-    public amount: number;
-    public value: number;
-    public product: Product;
+    public name: string;
+    public description: string | null;
+    public category: string;
+    public unitPrice: number;
+    public quantity: number;
+    public subtotal: number;
 
     constructor(payload: OrderProductPayload) {
         this.id = payload.id || randomUUID();
         this.productId = payload.productId;
-        this.amount = payload.amount;
-        this.value = payload.value;
-        this.product = payload.product;
+        this.name = payload.name;
+        this.description = payload.description || null;
+        this.category = payload.category;
+        this.unitPrice = payload.unitPrice;
+        this.quantity = payload.quantity;
+        this.subtotal = payload.subtotal;
     }
 }

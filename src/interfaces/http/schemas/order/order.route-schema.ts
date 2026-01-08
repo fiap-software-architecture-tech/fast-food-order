@@ -5,7 +5,6 @@ import {
     orderCreateRequestSchema,
     orderParamsRequestSchema,
     orderQueryRequestSchema,
-    orderUpdateRequestSchema,
     orderUpdateStatusRequestSchema,
 } from '#/interfaces/http/schemas/order/order-request.schema';
 import { orderResponseSchema } from '#/interfaces/http/schemas/order/order-response.schema';
@@ -41,19 +40,6 @@ export const orderListSchema = {
         query: orderQueryRequestSchema,
         response: {
             200: z.array(orderResponseSchema),
-        },
-    },
-};
-
-export const orderUpdateSchema = {
-    schema: {
-        tags: ['Pedidos'],
-        summary: 'Atualiza pedido',
-        body: orderUpdateRequestSchema,
-        response: {
-            200: orderResponseSchema,
-            400: badRequestSchema,
-            404: notFoundSchema,
         },
     },
 };

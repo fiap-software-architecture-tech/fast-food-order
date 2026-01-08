@@ -1,8 +1,8 @@
 import { PrismaClient, Order as PrismaOrder } from '@prisma/client';
 import { injectable, inject } from 'inversify';
 
-import { ListOrderDto } from '#/application/use-cases/list-order/list-order.dto';
 import { Order } from '#/domain/entities/order.entity';
+import { ListOrderFilterDto } from '#/domain/repositories/dto/list-order-filter.dto';
 import { IOrderRepository } from '#/domain/repositories/order.repository';
 import { TYPES } from '#/infrastructure/config/di/types';
 import { PrismaOrderMapper } from '#/infrastructure/repositories/prisma/mappers/prisma-order.mapper';
@@ -37,7 +37,7 @@ export class PrismaOrderRepository implements IOrderRepository {
         return PrismaOrderMapper.toDomain(data);
     }
 
-    async list(query?: ListOrderDto): Promise<Order[]> {
+    async list(query?: ListOrderFilterDto): Promise<Order[]> {
         const { page = 1, limit = 10 } = query || {};
         const offset = (page - 1) * limit;
 
@@ -57,12 +57,6 @@ export class PrismaOrderRepository implements IOrderRepository {
             parameters.push(query.clientId);
         }
 
-        if (query?.paymentStatus && query.paymentStatus.length > 0) {
-            const paymentStatusPlaceholders = query.paymentStatus.map(() => '?').join(',');
-            conditions.push(`p.status IN (${paymentStatusPlaceholders})`);
-            parameters.push(...query.paymentStatus);
-        }
-
         if (query?.productId) {
             conditions.push('op.product_id = ?');
             parameters.push(query.productId);
@@ -76,7 +70,6 @@ export class PrismaOrderRepository implements IOrderRepository {
             `
             SELECT o.id FROM \`order\` o
             JOIN order_product op ON o.id = op.order_id
-            JOIN payment p ON o.id = p.order_id
             WHERE ${whereClause}
             GROUP BY o.id
             ORDER BY
@@ -106,34 +99,26 @@ export class PrismaOrderRepository implements IOrderRepository {
         return sortedData.map(item => PrismaOrderMapper.toDomain(item));
     }
 
-    async updateOrderProducts(orderId: string, order: Order): Promise<Order> {
-        const data = await this.prisma.$transaction(async tx => {
-            await tx.orderProduct.deleteMany({
-                where: { orderId },
-            });
-
-            return await tx.order.update({
-                where: { id: orderId },
-                data: PrismaOrderMapper.toUpdateOrderProducts(order),
-                include: {
-                    orderProducts: true,
-                },
-            });
-        });
-
-        return PrismaOrderMapper.toDomain(data);
-    }
-
-    async updateStatus(id: string, order: Order): Promise<Order> {
+    async updatePaymentId(id: string, paymentId: string): Promise<Order> {
         const data = await this.prisma.order.update({
             where: { id },
-            data: { status: order.status },
+            data: { paymentId },
             include: {
                 orderProducts: true,
             },
         });
 
         return PrismaOrderMapper.toDomain(data);
+    }
+
+    async updateStatus(id: string, order: Order): Promise<void> {
+        await this.prisma.order.update({
+            where: { id },
+            data: { status: order.status },
+            include: {
+                orderProducts: true,
+            },
+        });
     }
 
     private sortOrders(orders: PrismaOrder[]) {

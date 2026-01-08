@@ -12,7 +12,6 @@
         "lint": "tsc && eslint ./src/**/*.ts",
         "lint:fix": "eslint ./src/**/*.ts --fix",
         "prisma:generate": "prisma generate",
-        "prisma:seed": "tsx prisma/seed.ts",
         "prisma:migrate": "prisma migrate dev",
         "prisma:reset": "prisma migrate reset",
         "prisma:deploy": "prisma migrate deploy",

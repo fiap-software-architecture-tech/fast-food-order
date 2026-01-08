@@ -1,38 +1,48 @@
 import { OrderStatus } from '@prisma/client';
 
-import { IOrderProduct, OrderProduct } from '#/domain/entities/order-product.entity';
-import { IOrder, Order } from '#/domain/entities/order.entity';
-import { IProduct } from '#/domain/entities/product.entity';
-import { ProductValidationFactory } from '#/domain/factories/product-validation.factory';
+import { OrderProduct } from '#/domain/entities/order-product.entity';
+import { Order } from '#/domain/entities/order.entity';
+import { Product } from '#/domain/entities/product.entity';
 
-export class OrderBuilderFactory {
-    static buildOrderProducts(
-        requestedProducts: Array<{ productId: string; quantity: number }>,
-        availableProducts: IProduct[],
-    ): { orderProducts: IOrderProduct[]; totalValue: number } {
-        let totalValue = 0;
+export class OrderBuilder {
+    private orderProducts: OrderProduct[] = [];
+    private totalAmount = 0;
 
-        const orderProducts = requestedProducts.map(item => {
-            const product = ProductValidationFactory.findProductById(item.productId, availableProducts);
-            const itemValue = product.value * item.quantity;
-            totalValue += itemValue;
+    withProducts(requestProducts: Array<{ productId: string; quantity: number }>, products: Product[]): this {
+        this.orderProducts = requestProducts.map(item => {
+            const product = products.find(product => product.id === item.productId);
 
-            return new OrderProduct({
-                amount: item.quantity,
-                value: itemValue,
-                product: product,
+            const orderProduct = new OrderProduct({
+                productId: product!.id,
+                name: product!.name,
+                description: product!.description,
+                category: product!.category.name,
+                unitPrice: product!.value,
+                quantity: item.quantity,
+                subtotal: product!.value * item.quantity,
             });
+
+            this.totalAmount += orderProduct.subtotal;
+            return orderProduct;
         });
 
-        return { orderProducts, totalValue };
+        return this;
     }
 
-    static createOrder(orderProducts: IOrderProduct[], totalValue: number): IOrder {
-        return new Order({
-            value: totalValue,
-            orderNumber: 0,
+    build(): Order {
+        const order = new Order({
+            orderProducts: this.orderProducts,
+            totalAmount: this.totalAmount,
             status: OrderStatus.WAITING,
-            orderProducts: orderProducts,
+            orderNumber: 0,
         });
+
+        return order;
+    }
+}
+
+export class OrderBuilderFactory {
+    static create(): OrderBuilder {
+        return new OrderBuilder();
     }
 }

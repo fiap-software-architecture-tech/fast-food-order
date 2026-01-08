@@ -20,24 +20,10 @@ export const orderCreateRequestSchema = z.object({
     orderProducts: z.array(orderProductSchema).min(1, { message: VALIDATION_MESSAGES.MINIMUM_PRODUCTS }),
 });
 
-export const orderUpdateRequestSchema = z.object({
-    status: z.string().optional(),
-    orderProducts: z
-        .array(
-            z.object({
-                productId: z.string(),
-                quantity: z.number().positive({ message: VALIDATION_MESSAGES.QUANTITY_MUST_BE_POSITIVE }).optional(),
-            }),
-        )
-        .min(1, { message: VALIDATION_MESSAGES.MINIMUM_PRODUCTS })
-        .optional(),
-});
-
 export const orderQueryRequestSchema = z.object({
     status: z.string().optional(),
     clientId: z.string().optional(),
     productId: z.string().optional(),
-    paymentStatus: z.string().optional(),
     page: z.coerce.number().positive().default(1),
     limit: z.coerce.number().positive().max(100).default(10),
 });
@@ -51,7 +37,6 @@ export const orderParamsRequestSchema = z.object({
 });
 
 export type OrderCreateRequest = z.infer<typeof orderCreateRequestSchema>;
-export type OrderUpdateRequest = z.infer<typeof orderUpdateRequestSchema>;
 export type OrderQueryRequest = z.infer<typeof orderQueryRequestSchema>;
 export type OrderUpdateStatusRequest = z.infer<typeof orderUpdateStatusRequestSchema>;
 export type OrderParamsRequest = z.infer<typeof orderParamsRequestSchema>;

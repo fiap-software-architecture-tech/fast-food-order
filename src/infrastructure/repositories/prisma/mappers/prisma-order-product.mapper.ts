@@ -7,8 +7,12 @@ export class PrismaOrderProductMapper {
         return new OrderProduct({
             id: data.id,
             productId: data.productId,
-            amount: data.amount,
-            value: data.value,
+            name: data.name,
+            description: data.description,
+            category: data.category,
+            unitPrice: data.unitPrice,
+            quantity: data.quantity,
+            subtotal: data.subtotal,
         });
     }
 }
