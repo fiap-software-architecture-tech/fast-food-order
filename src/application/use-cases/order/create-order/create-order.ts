@@ -10,6 +10,7 @@ import { IOrderRepository } from '#/domain/repositories/order.repository';
 import { ILogger } from '#/domain/services/logger.service';
 import { ProductValidatorService } from '#/domain/services/product-validator.service';
 import { TYPES } from '#/infrastructure/config/di/types';
+import { CreatePaymentMapper } from '#/infrastructure/gateways/fast-food-payment/mapper/create-payment.mapper';
 import { OrderCreateRequest } from '#/interfaces/http/schemas/order/order-request.schema';
 
 @injectable()
@@ -32,7 +33,8 @@ export class CreateOrder implements ICreateOrderUseCase {
 
         const order = OrderBuilderFactory.create().withProducts(request.orderProducts, products).build();
 
-        const payment = await this.createPaymentGateway.execute(order);
+        const gatewayRequest = CreatePaymentMapper.toGatewayMapper(order);
+        const payment = await this.createPaymentGateway.execute(gatewayRequest);
 
         order.setClientId(client?.id);
         order.setPaymentId(payment.id);
