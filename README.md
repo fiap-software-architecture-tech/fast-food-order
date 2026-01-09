@@ -491,13 +491,26 @@ Atualiza status do pedido.
 - **[fast-food-cook-to-order](https://github.com/fiap-software-architecture-tech/fast-food-cook-to-order)** - Microsserviço de Cozinha
 - **[fast-food-db-infra](https://github.com/fiap-software-architecture-tech/fast-food-db-infra)** - Infraestrutura de Banco de Dados
 
-## 💰 Custo Estimado
+## 🔄 CI/CD
 
-- **Lambda**: ~$0-8/mês
-- **RDS MySQL (db.t3.micro)**: ~$15-30/mês
-- **API Gateway**: ~$0-5/mês
+Este repositório possui workflows automatizados de CI/CD via GitHub Actions:
 
-**Total**: ~$15-43/mês
+### CI (Integração Contínua)
+- **Trigger**: Push e Pull Request para `modulo_4`
+  - Observação: o branch `modulo_4` representa o branch principal deste módulo do Tech Challenge. Caso o branch principal do desenvolvimento seja alterado em iterações futuras (por exemplo, para `main`, `master` ou outro módulo), atualize tanto os workflows do GitHub Actions quanto esta documentação para refletir o novo branch padrão.
+- **Jobs**:
+  - Lint e validação de código
+  - Build da aplicação
+  - Execução de testes unitários
+  - Cobertura de código
+  - Security audit
+
+### CD (Deploy Contínuo)
+- **Trigger**: Merge para `modulo_4`
+- **Jobs**:
+  - Build e empacotamento Lambda
+  - Deploy automático na AWS
+  - Atualização da função Lambda
 
 ## 👥 Equipe
 
