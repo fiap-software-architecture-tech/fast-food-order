@@ -1,3 +1,5 @@
+import { randomUUID } from 'crypto';
+
 import { Order as PrismaOrder, OrderProduct as PrismaOrderProduct, Prisma } from '@prisma/client';
 
 import { Order } from '#/domain/entities/order.entity';
@@ -23,6 +25,7 @@ export class PrismaOrderMapper {
 
     static toCreate(data: Order): Prisma.OrderCreateInput {
         return {
+            id: data.id || randomUUID(),
             clientId: data.clientId,
             paymentId: data.paymentId,
             totalAmount: data.totalAmount,
