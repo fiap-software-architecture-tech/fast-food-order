@@ -1,0 +1,52 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "mysql"
+    url      = env("DATABASE_URL")
+}
+
+model Order {
+    id          String      @id
+    clientId    String?     @map("client_id") @db.Char(36)
+    paymentId   String?     @map("payment_id") @db.Char(36)
+    totalAmount Int
+    orderNumber Int         @unique @default(autoincrement()) @map("order_number")
+    status      OrderStatus @default(WAITING)
+
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
+
+    orderProducts OrderProduct[]
+
+    @@map("order")
+}
+
+model OrderProduct {
+    id          String  @id @default(uuid())
+    orderId     String  @map("order_id") @db.Char(36)
+    productId   String  @map("product_id") @db.Char(36)
+    name        String  @db.VarChar(255)
+    description String? @db.VarChar(500)
+    category    String  @db.VarChar(255)
+    unitPrice   Int
+    quantity    Int
+    subtotal    Int
+
+    createdAt DateTime @default(now()) @map("created_at")
+    updatedAt DateTime @updatedAt @map("updated_at")
+
+    order Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+    @@map("order_product")
+}
+
+enum OrderStatus {
+    WAITING
+    RECEIVED
+    IN_PROGRESS
+    DONE
+    FINISHED
+    CANCELED
+}
