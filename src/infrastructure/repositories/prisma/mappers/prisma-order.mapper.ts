@@ -23,6 +23,7 @@ export class PrismaOrderMapper {
 
     static toCreate(data: Order): Prisma.OrderCreateInput {
         return {
+            id: data.id,
             clientId: data.clientId,
             paymentId: data.paymentId,
             totalAmount: data.totalAmount,

@@ -7,7 +7,10 @@ import {
     orderQueryRequestSchema,
     orderUpdateStatusRequestSchema,
 } from '#/interfaces/http/schemas/order/order-request.schema';
-import { orderResponseSchema } from '#/interfaces/http/schemas/order/order-response.schema';
+import {
+    orderResponseSchema,
+    updateOrderStatusResponseSchema,
+} from '#/interfaces/http/schemas/order/order-response.schema';
 
 export const orderCreateSchema = {
     schema: {
@@ -51,7 +54,7 @@ export const orderUpdateStatusSchema = {
         params: orderParamsRequestSchema,
         body: orderUpdateStatusRequestSchema,
         response: {
-            200: orderResponseSchema,
+            200: updateOrderStatusResponseSchema,
             400: badRequestSchema,
             404: notFoundSchema,
         },
