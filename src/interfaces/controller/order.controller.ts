@@ -3,6 +3,8 @@ import { inject, injectable } from 'inversify';
 import { ICreateOrderUseCase } from '#/application/use-cases/order/create-order/create-order.use-case';
 import { IGetOrderUseCase } from '#/application/use-cases/order/get-order/get-order.use-case';
 import { IListOrderUseCase } from '#/application/use-cases/order/list-order/list-order.use-case';
+import { IPaymentApprovedUseCase } from '#/application/use-cases/order/payment-approved/payment-approved.use-case';
+import { IPaymentFailedUseCase } from '#/application/use-cases/order/payment-failed/payment-failed.use-case';
 import { IUpdateOrderStatusUseCase } from '#/application/use-cases/order/update-order-status/update-order-status.use-case';
 import { Client } from '#/domain/entities/client.entity';
 import { ILogger } from '#/domain/services/logger.service';
@@ -23,6 +25,8 @@ export class OrderController {
         @inject(TYPES.GetOrderUseCase) private readonly getOrderUseCase: IGetOrderUseCase,
         @inject(TYPES.ListOrderUseCase) private readonly listOrderUseCase: IListOrderUseCase,
         @inject(TYPES.UpdateOrderStatusUseCase) private readonly updateOrderStatusUseCase: IUpdateOrderStatusUseCase,
+        @inject(TYPES.PaymentApprovedUseCase) private readonly paymentApprovedUseCase: IPaymentApprovedUseCase,
+        @inject(TYPES.PaymentFailedUseCase) private readonly paymentFailedUseCase: IPaymentFailedUseCase,
     ) {}
 
     async create(request: OrderCreateRequest, client?: Client): Promise<OrderResponse> {
@@ -47,5 +51,15 @@ export class OrderController {
         this.logger.info('Updating order status with ID', { id, request });
         await this.updateOrderStatusUseCase.execute(id, request.status);
         return OrderPresenter.toUpdateOrderStatusResponse();
+    }
+
+    async paymentApproved(id: string): Promise<void> {
+        this.logger.info('Processing payment approved for order ID', { id });
+        await this.paymentApprovedUseCase.execute(id);
+    }
+
+    async paymentFailed(id: string): Promise<void> {
+        this.logger.info('Processing payment failed for order ID', { id });
+        await this.paymentFailedUseCase.execute(id);
     }
 }

@@ -57,3 +57,29 @@ export const orderUpdateStatusSchema = {
         },
     },
 };
+
+export const orderPaymentApprovedSchema = {
+    schema: {
+        tags: ['Pedidos'],
+        summary: 'Notifica produção quando pagamento é aprovado',
+        params: orderParamsRequestSchema,
+        response: {
+            200: z.void(),
+            400: badRequestSchema,
+            404: notFoundSchema,
+        },
+    },
+};
+
+export const orderPaymentFailedSchema = {
+    schema: {
+        tags: ['Pedidos'],
+        summary: 'Atualiza pedido quando pagamento falha',
+        params: orderParamsRequestSchema,
+        response: {
+            200: z.void(),
+            400: badRequestSchema,
+            404: notFoundSchema,
+        },
+    },
+};

@@ -10,6 +10,8 @@ export const TYPES = {
     GetOrderUseCase: Symbol.for('GetOrderUseCase'),
     ListOrderUseCase: Symbol.for('ListOrderUseCase'),
     UpdateOrderStatusUseCase: Symbol.for('UpdateOrderStatusUseCase'),
+    PaymentApprovedUseCase: Symbol.for('PaymentApprovedUseCase'),
+    PaymentFailedUseCase: Symbol.for('PaymentFailedUseCase'),
 
     // Repositories
     OrderRepository: Symbol.for('OrderRepository'),
@@ -20,6 +22,7 @@ export const TYPES = {
     FindManyProductsGateway: Symbol.for('FindManyProductsGateway'),
     CreatePaymentGateway: Symbol.for('CreatePaymentGateway'),
     GetPaymentGateway: Symbol.for('GetPaymentGateway'),
+    CreateCookToOrderGateway: Symbol.for('CreateCookToOrderGateway'),
 
     // Services
     ValidatorTokenService: Symbol.for('ValidatorTokenService'),

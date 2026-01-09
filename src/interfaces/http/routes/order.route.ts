@@ -13,6 +13,8 @@ import {
     orderCreateSchema,
     orderGetSchema,
     orderListSchema,
+    orderPaymentApprovedSchema,
+    orderPaymentFailedSchema,
     orderUpdateStatusSchema,
 } from '#/interfaces/http/schemas/order/order.route-schema';
 
@@ -41,5 +43,15 @@ export const orderRoute = (app: FastifyInstance) => {
     }>('/:id/status', orderUpdateStatusSchema, async (req, reply) => {
         const response = await controller.updateStatus(req.params.id, req.body);
         return reply.send(response);
+    });
+
+    app.post<{ Params: OrderParamsRequest }>('/:id/approved', orderPaymentApprovedSchema, async (req, reply) => {
+        await controller.paymentApproved(req.params.id);
+        return reply.status(StatusCodes.NO_CONTENT);
+    });
+
+    app.post<{ Params: OrderParamsRequest }>('/:id/failed', orderPaymentFailedSchema, async (req, reply) => {
+        await controller.paymentFailed(req.params.id);
+        return reply.status(StatusCodes.NO_CONTENT);
     });
 };
