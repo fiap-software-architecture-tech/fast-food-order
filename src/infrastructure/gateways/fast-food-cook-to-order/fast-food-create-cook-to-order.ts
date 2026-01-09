@@ -10,7 +10,7 @@ import { env } from '#/infrastructure/config/env';
 
 @injectable()
 export class FastFoodCreateCookToOrder implements ICreateCookToOrder {
-    private readonly baseUrl = env.FAST_FOOD_PAYMENT_API_URL;
+    private readonly baseUrl = env.FAST_FOOD_COOK_TO_ORDER_API_URL;
 
     constructor(
         @inject(TYPES.Logger) private readonly logger: ILogger,

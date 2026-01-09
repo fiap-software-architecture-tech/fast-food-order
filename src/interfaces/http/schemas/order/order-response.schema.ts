@@ -23,7 +23,7 @@ export const orderResponseSchema = z.object({
         .object({
             id: z.string().uuid(),
             status: z.string(),
-            externalReference: z.string(),
+            externalReference: z.string().nullable(),
             qrCode: z.string(),
             createdAt: z.date().optional(),
             updatedAt: z.date().optional(),
