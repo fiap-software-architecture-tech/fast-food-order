@@ -194,6 +194,9 @@ Os testes cobrem:
 - ✅ Regras de negócio
 - ✅ Integração com banco de dados
 
+O coverage dos testes está disponível em [index.html](./coverage/index.html).
+
+
 ## 🧪 Testes com BDD (Behavior-Driven Development)
 
 ### Abordagem BDD
