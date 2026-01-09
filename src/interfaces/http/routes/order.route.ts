@@ -47,11 +47,11 @@ export const orderRoute = (app: FastifyInstance) => {
 
     app.post<{ Params: OrderParamsRequest }>('/:id/approved', orderPaymentApprovedSchema, async (req, reply) => {
         await controller.paymentApproved(req.params.id);
-        return reply.status(StatusCodes.NO_CONTENT);
+        return reply.status(StatusCodes.NO_CONTENT).send();
     });
 
     app.post<{ Params: OrderParamsRequest }>('/:id/failed', orderPaymentFailedSchema, async (req, reply) => {
         await controller.paymentFailed(req.params.id);
-        return reply.status(StatusCodes.NO_CONTENT);
+        return reply.status(StatusCodes.NO_CONTENT).send();
     });
 };

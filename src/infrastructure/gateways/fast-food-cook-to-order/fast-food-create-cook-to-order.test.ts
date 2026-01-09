@@ -8,7 +8,7 @@ import { createLoggerMock } from '#/infrastructure/services/mocks/logger-mock.se
 
 vi.mock('#/infrastructure/config/env', () => ({
     env: {
-        FAST_FOOD_PAYMENT_API_URL: 'http://localhost:3001',
+        FAST_FOOD_COOK_TO_ORDER_API_URL: 'http://localhost:3001',
     },
 }));
 
