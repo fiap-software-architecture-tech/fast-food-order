@@ -6,9 +6,9 @@ import { GetOrder } from '#/application/use-cases/order/get-order/get-order';
 import { IGetOrderUseCase } from '#/application/use-cases/order/get-order/get-order.use-case';
 import { ListOrder } from '#/application/use-cases/order/list-order/list-order';
 import { IListOrderUseCase } from '#/application/use-cases/order/list-order/list-order.use-case';
-import { PaymentApprovedUseCase } from '#/application/use-cases/order/payment-approved/payment-approved';
+import { PaymentApproved } from '#/application/use-cases/order/payment-approved/payment-approved';
 import { IPaymentApprovedUseCase } from '#/application/use-cases/order/payment-approved/payment-approved.use-case';
-import { PaymentFailedUseCase } from '#/application/use-cases/order/payment-failed/payment-failed';
+import { PaymentFailed } from '#/application/use-cases/order/payment-failed/payment-failed';
 import { IPaymentFailedUseCase } from '#/application/use-cases/order/payment-failed/payment-failed.use-case';
 import { UpdateOrderStatus } from '#/application/use-cases/order/update-order-status/update-order-status';
 import { IUpdateOrderStatusUseCase } from '#/application/use-cases/order/update-order-status/update-order-status.use-case';
@@ -19,6 +19,6 @@ export function bindUseCases(container: Container) {
     container.bind<IGetOrderUseCase>(TYPES.GetOrderUseCase).to(GetOrder).inTransientScope();
     container.bind<IListOrderUseCase>(TYPES.ListOrderUseCase).to(ListOrder).inTransientScope();
     container.bind<IUpdateOrderStatusUseCase>(TYPES.UpdateOrderStatusUseCase).to(UpdateOrderStatus).inTransientScope();
-    container.bind<IPaymentApprovedUseCase>(TYPES.PaymentApprovedUseCase).to(PaymentApprovedUseCase).inTransientScope();
-    container.bind<IPaymentFailedUseCase>(TYPES.PaymentFailedUseCase).to(PaymentFailedUseCase).inTransientScope();
+    container.bind<IPaymentApprovedUseCase>(TYPES.PaymentApprovedUseCase).to(PaymentApproved).inTransientScope();
+    container.bind<IPaymentFailedUseCase>(TYPES.PaymentFailedUseCase).to(PaymentFailed).inTransientScope();
 }

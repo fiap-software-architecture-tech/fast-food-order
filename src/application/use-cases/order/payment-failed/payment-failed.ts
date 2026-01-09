@@ -8,7 +8,7 @@ import { ILogger } from '#/domain/services/logger.service';
 import { TYPES } from '#/infrastructure/config/di/types';
 
 @injectable()
-export class PaymentFailedUseCase implements IPaymentFailedUseCase {
+export class PaymentFailed implements IPaymentFailedUseCase {
     constructor(
         @inject(TYPES.Logger) private logger: ILogger,
         @inject(TYPES.OrderRepository) private orderRepository: IOrderRepository,
@@ -20,7 +20,7 @@ export class PaymentFailedUseCase implements IPaymentFailedUseCase {
         const order = await this.orderRepository.findById(orderId);
 
         if (!order) {
-            this.logger.warn('Order not found for status update', { orderId });
+            this.logger.warn('Order not found', { orderId });
             throw new NotFoundError('Order not found');
         }
 

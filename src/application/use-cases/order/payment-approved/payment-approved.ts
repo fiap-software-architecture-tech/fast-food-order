@@ -8,7 +8,7 @@ import { TYPES } from '#/infrastructure/config/di/types';
 import { CreateCookToOrderMapper } from '#/infrastructure/gateways/fast-food-cook-to-order/mapper/create-cook-to-order.mapper';
 
 @injectable()
-export class PaymentApprovedUseCase implements IPaymentApprovedUseCase {
+export class PaymentApproved implements IPaymentApprovedUseCase {
     constructor(
         @inject(TYPES.Logger) private readonly logger: ILogger,
         @inject(TYPES.OrderRepository) private readonly orderRepository: any,
