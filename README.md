@@ -408,7 +408,7 @@ npm run test:coverage
 
 Test Files  2 passed (2)
      Tests  6 passed (6)
-  Start at  19:30:00
+  Started at  19:30:00
   Duration  1.2s
 ```
 
