@@ -497,6 +497,7 @@ Este repositório possui workflows automatizados de CI/CD via GitHub Actions:
 
 ### CI (Integração Contínua)
 - **Trigger**: Push e Pull Request para `modulo_4`
+  - Observação: o branch `modulo_4` representa o branch principal deste módulo do Tech Challenge. Caso o branch principal do desenvolvimento seja alterado em iterações futuras (por exemplo, para `main`, `master` ou outro módulo), atualize tanto os workflows do GitHub Actions quanto esta documentação para refletir o novo branch padrão.
 - **Jobs**:
   - Lint e validação de código
   - Build da aplicação
